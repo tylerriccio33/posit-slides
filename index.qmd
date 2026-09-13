@@ -92,6 +92,32 @@ The hot take: the API matters more than speed, cost, or support.
 
 State it plainly and let the rest of the talk earn it. This is the one
 decision that determines how much friction the team absorbs.
+
+Cycle 1 of 3 — you'll say this sentence again at the pillars and at
+the end.
+:::
+
+## This is not a Polars talk {.center}
+
+::: {.fragment}
+One migration — **dplyr → Polars** — as the worked example.
+:::
+
+::: {.fragment}
+Swap in your own.
+:::
+
+::: {.notes}
+FENCE (verbatim): "I want to be clear about what this talk is and isn't.
+It is not a Polars talk."
+
+[click] "I'm going to use one migration I've lived through — dplyr to
+Polars — to show you what 'easiest' looks like in practice."
+
+[click] "If your migration is SQL to Spark, or SAS to R, swap it in.
+The argument is about the choice, not the tool."
+
+This is the slide the focus group was missing. Don't skip it.
 :::
 
 ## By "API" I mean the function signature
@@ -114,9 +140,9 @@ function signature — the arguments and the return — not REST.
 Two examples, don't explain them. Move.
 :::
 
-# What easy actually means
+# What "easiest" actually means
 
-## Pillar One: Productive on day one {.bullets-lg}
+## Easiest means: productive on day one {.bullets-lg}
 
 ::: {.incremental}
 - [Early]{.accent} wins
@@ -125,7 +151,8 @@ Two examples, don't explain them. Move.
 :::
 
 ::: {.notes}
-Verbal signpost: "Two pillars. First: can I be productive immediately?"
+Verbal signpost: "So what does easiest mean? Two things. First: can the
+programmer be productive immediately?"
 
 [click] Early wins — real code that runs on day one, before anyone has
 mastered environments, classes, or types. Impresses superiors; feels
@@ -168,7 +195,7 @@ df |>
 ::::
 
 ::: {.fragment .center}
-**Ten minutes in, and it already works.**
+**Easiest = it works in ten minutes.**
 :::
 
 ::: {.notes}
@@ -177,11 +204,12 @@ Don't explain the code — the room should recognize it instantly.
 The pipe became a dot. filter is filter, select is select. That is the
 entire lesson for day one.
 
-[click] "Ten minutes in, and it already works." That's the early win,
-and it's the thin slice you *want* people to form.
+Say it as a property of the CHOICE, not of Polars: "This is what the
+easy option looks like on day one — it works in ten minutes. Whatever
+you're migrating to, this is the test."
 :::
 
-## Pillar One conclusion: {.center}
+## {.center}
 
 ::: {.fragment .big-word}
 *Day one decides whether people keep going.*
@@ -195,7 +223,7 @@ still coming up to speed on everything else.
 The goal is comfort, not full control of a complex system.
 :::
 
-## Pillar Two: Keep the same shape of thought {.bullets-lg}
+## Easiest means: the same shape of thought {.bullets-lg}
 
 ::: {.incremental}
 - Easy [syntax]{.accent} is a virtue
@@ -203,8 +231,9 @@ The goal is comfort, not full control of a complex system.
 :::
 
 ::: {.notes}
-Verbal signpost: "That's day one. The second pillar is every day after:
-don't make people relearn how to think about data."
+Verbal signpost: "That's day one. The second thing easiest means is
+about every day after: the programmer doesn't have to relearn how to
+think about data."
 
 [click] Easy syntax — other options leaned on verbose, heavily-typed
 languages that added friction before anyone got to the actual work.
@@ -226,7 +255,7 @@ pl.col("revenue")
 ```
 
 ::: {.fragment}
-**Vectorized in R. Vectorized in Polars. No loop in either.**
+**Easiest = the same sentence, in a new language.**
 :::
 
 ::: {.notes}
@@ -237,8 +266,10 @@ Subset a vector by a condition, then reduce it. Same thought. The R
 version is a bracket; the Polars version is a chain — but it's the same
 sentence.
 
-[click] The point to hit: nobody wrote a for loop. The whole
-vectorized mental model came with us.
+[click] Nobody wrote a for loop. The vectorized mental model came with
+us. That's the property to look for: the option where your old
+sentences still parse. Not "Polars is great" — "this is what easy
+looks like."
 :::
 
 ## Same thought, every column
@@ -272,22 +303,24 @@ df.with_columns(
 ::::
 
 ::: {.fragment .center}
-**One expression, every matching column.**
+**Easiest = you didn't learn a new way to think.**
 :::
 
 ::: {.notes}
 Column selectors: the same idea in both — pick columns by a rule, apply
 one expression to all of them.
 
-[click] One expression, every column. Method chaining in Polars is the
-pipe in dplyr; an expression in Polars is the thing inside `across`.
+[click] Same idea, both sides. The chain is the pipe; the expression is
+the thing inside `across`. Again — the point isn't that Polars has
+selectors; it's that the easy option is the one where the programmer
+didn't have to learn a new way to think.
 
 Morale beat lives here: when everyone writes it this way, code is
 readable and reviewable across the team. Shared idioms mean the whole
 team has the *same* migration, not eight different ones.
 :::
 
-## Pillar Two conclusion: {.center}
+## {.center}
 
 ::: {.fragment .big-word}
 Some days, you don't need to learn anything new.
@@ -330,9 +363,38 @@ two are true.
 
 Footnote, one sentence: we liked it enough that we wrote it up publicly
 with the Polars team. Don't linger.
+
+Cycle 2 of 3: "That's what it means to pick the easiest option for the
+person who writes the code."
 :::
 
 # Ask the programmer
+
+## Next time you're in that room {.bullets-lg}
+
+::: {.incremental}
+- Ask: *does it work on [day one]{.accent}?*
+- Ask: *does my old [sentence]{.accent} still parse?*
+- Ask: *who [asked]{.accent} the programmer?*
+:::
+
+::: {.notes}
+Verbal signpost: "So here's what I'd like you to take out of this room."
+
+You will be in a migration meeting. Finance, leadership, tech, and
+cyber will all have an opinion. Three questions to bring:
+
+[click] Day one — can someone write real, useful code before they've
+mastered environments and types?
+
+[click] Old sentence — take a line you write every week in the old
+language. Does it translate, or does it need a detour?
+
+[click] Who asked the programmer — if the answer is "no one," you're
+the one who has to.
+
+This is the call to action. Land it, then the last picture.
+:::
 
 ## The litany of opinions {.center auto-animate="true"}
 
@@ -357,16 +419,21 @@ Back where we started. Same four voices.
 <div class="fragment stakeholder-row accent"><span class="stakeholder-name">Programmer</span><span class="stakeholder-value">Easy</span></div>
 </div>
 
+::: {.fragment .big-word .closing}
+Ask the programmer.
+:::
+
 ::: {.notes}
 [click] The missing row.
 
-Someone should be choosing the easiest option, because that's the person
-who has to live in this code tomorrow.
+Cycle 3 of 3: "A migration should optimize for the easiest option for
+the person who has to write the code — because they're the one who
+lives in it tomorrow."
 
-CLOSING LINE (verbatim): "That's how you migrate a language without
-losing your native one."
+[click] CLOSING LINE (verbatim, as the words appear on screen): "Ask the
+programmer."
 
-"Thank you."
+Beat. "Thank you."
 
 (Then: "Happy to take questions.")
 :::
