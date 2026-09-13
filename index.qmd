@@ -64,8 +64,6 @@ No one asks the principal character - the programmer doing the migration.
 ## The litany of opinions one receives {auto-animate="true"}
 
 <div class="stakeholder-grid">
-<div class="stakeholder-header">Stakeholder</div>
-<div class="stakeholder-header">Interest</div>
 <div class="fragment stakeholder-name">Finance</div>
 <div class="fragment stakeholder-value">Cost</div>
 <div class="fragment stakeholder-name">Leadership</div>
@@ -352,8 +350,6 @@ Productivity
 ## The litany, revisited {auto-animate="true"}
 
 <div class="stakeholder-grid">
-<div class="stakeholder-header">Stakeholder</div>
-<div class="stakeholder-header">Interest</div>
 <div class="fragment stakeholder-name">Finance</div>
 <div class="fragment stakeholder-value">Cost</div>
 <div class="fragment stakeholder-name">Leadership</div>
