@@ -100,3 +100,12 @@ $code-block-font-size: 0.65em;
   margin-left: auto;
   margin-right: auto;
 }
+
+/* stacked dplyr-over-Polars code pairs, revealed top to bottom */
+.reveal .code-stack .fragment > p {
+  margin-bottom: 0.1em;
+}
+.reveal .code-stack pre {
+  margin-top: 0;
+  margin-bottom: 0.6em;
+}

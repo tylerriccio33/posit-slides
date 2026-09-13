@@ -164,6 +164,10 @@ df.filter(pl.col("paid"))
 
 # What "easiest" actually means
 
+::: {.notes}
+(VERBATIM) My thesis called for optimizing for the "easiest" migration options. This is what I mean.
+:::
+
 ## Easiest means: productive on day one {.bullets-lg}
 
 ::: {.incremental}
@@ -173,26 +177,28 @@ df.filter(pl.col("paid"))
 :::
 
 ::: {.notes}
-Verbal signpost: "So what does easiest mean? Two things. First: can the
-Data Scientist be productive immediately?"
+(VERBATIM):
+Can the Data Scientist be productive immediately?
 
-[click] Early wins — real code that runs on day one, before anyone has
-mastered environments, classes, or types. Impresses superiors; feels
-good.
+[click] 
+Early wins — real code that runs on day one, before anyone has
+mastered environments, classes, or types. 
 
-[click] Thin-slice — first impressions aren't accurate, but they have
-more predictive power and persistence than we'd like. We're judgemental
-animals. Callback: my first ten minutes installing Python was a thin
-slice, and it stuck.
+Impresses superiors; feels good to accomplish things.
+
+[click] 
+Thin-slice theory, a well established psychological phenomenom:
+First impressions aren't accurate, but they have more predictive power and persistence than we'd like. We're judgemental
+animals. 
+
+Callback: my first ten minutes installing Python was that thin slice. Everyone has had that, and it's not limited to programming, obviously.
 
 Not fair, but real, and it has to be managed.
 :::
 
-## Day one
+## {.code-stack}
 
-:::: {.columns}
-
-::: {.column width="45%"}
+::: {.fragment}
 **dplyr**
 
 ```r
@@ -205,7 +211,7 @@ df |>
 ```
 :::
 
-::: {.column width="55%"}
+::: {.fragment}
 **Polars**
 
 ```python
@@ -216,19 +222,17 @@ df.filter(pl.col("status") == "paid").select(
 ```
 :::
 
-::::
-
 ::: {.fragment .center}
 **Easiest = it works in ten minutes.**
 :::
 
 ::: {.notes}
-Don't explain the code — the room should recognize it instantly.
+[click] dplyr — the room should recognize it instantly. Don't explain.
 
-The pipe became a dot. filter is filter, select is select. That is the
-entire lesson for day one.
+[click] Polars — the pipe became a dot. filter is filter, select is
+select. That is the entire lesson for day one.
 
-Say it as a property of the CHOICE, not of Polars: "This is what the
+[click] Say it as a property of the CHOICE, not of Polars: "This is what the
 easy option looks like on day one — it works in ten minutes. Whatever
 you're migrating to, this is the test."
 :::
@@ -296,11 +300,9 @@ sentences still parse. Not "Polars is great" — "this is what easy
 looks like."
 :::
 
-## Same thought, every column
+## Same thought, every column {.code-stack}
 
-:::: {.columns}
-
-::: {.column width="50%"}
+::: {.fragment}
 **dplyr**
 
 ```r
@@ -312,7 +314,7 @@ df |>
 ```
 :::
 
-::: {.column width="50%"}
+::: {.fragment}
 **Polars**
 
 ```python
@@ -324,15 +326,14 @@ df.with_columns(
 ```
 :::
 
-::::
-
 ::: {.fragment .center}
 **Easiest = you didn't learn a new way to think.**
 :::
 
 ::: {.notes}
-Column selectors: the same idea in both — pick columns by a rule, apply
-one expression to all of them.
+[click] dplyr — pick columns by a rule, apply one expression to all.
+
+[click] Polars — same idea. `cs` is Polars' column selectors.
 
 [click] Same idea, both sides. The chain is the pipe; the expression is
 the thing inside `across`. Again — the point isn't that Polars has
