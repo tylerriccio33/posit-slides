@@ -16,8 +16,8 @@ color:
   secondary: forest
   success: green
   info: blue
-  foreground: ink
-  background: paper
+  foreground: paper
+  background: ink
 
 typography:
   fonts:

@@ -41,7 +41,25 @@ Not a web API. When I say API in this talk, I mean the literal
 of code.
 
 ```r
-sum(x, na.rm = TRUE)
+sum(x, na.rm = TRUE) # The `sum` API
+
+df %>% select(...) # `DataFrame` or `select` API
+```
+
+```python
+data.filter(pl.col('truthy')) # `DataFrame` or `filter` API
+
+[x + 1 for x in vec] # List comprehension API
+```
+
+Some APIs are more theoretical in nature:
+
+```default
+Imperative vs. Procedural
+
+RDBMS vs. Graph
+
+UV Projects vs. Virtual Environments
 ```
 
 ::: {.notes}
@@ -61,7 +79,9 @@ use something.
 No one asks the principal character - the programmer doing the migration.
 :::
 
-## The litany of opinions one receives {auto-animate="true"}
+## The litany of opinions one receives {.center}
+
+## {.center}
 
 <div class="stakeholder-grid">
 <div class="fragment stakeholder-name">Finance</div>
@@ -75,10 +95,15 @@ No one asks the principal character - the programmer doing the migration.
 </div>
 
 ::: {.notes}
-Risk says the most secure option. Finance says the cheapest. Leadership
-says the most supportable, long-term.
-Nobody in that room asks the people who will write and read this code
-every day what they'd choose.
+Every migration collects a chorus of opinions before anyone touches the code.
+
+[click] Finance — the cheapest option.
+[click] Leadership — the most resourced option.
+[click] Tech — the most infrastructure-compatible option.
+[click] Cyber — the most secure option.
+
+Notice who's missing: the person who actually has to write and read this
+code every day.
 :::
 
 ## I'm trying to install python… {.bullets-lg}
@@ -91,14 +116,14 @@ every day what they'd choose.
 :::
 
 ::: {.notes}
-Cold open, present tense, first person: pip, conda, pyenv — pre-uv world.
-What's an interpreter? What's a path? What even is an IDE?
-Land the joke — everyone in the room who has installed Python has a
-version of this story.
-Turn it: the first impression is not a footnote. It sets the tone for
-everything that follows.
-Note: Don't let this become the whole talk — plenty of talks exist just
-on Python packaging. One beat, then move.
+Cold open, first person, present tense — pre-uv world: pip, conda, pyenv,
+interpreters, paths.
+
+Everyone in the room who's installed Python has lived some version of
+this. Let the laugh land, then turn it: the first impression isn't a
+footnote — it sets the tone for everything that follows.
+
+Keep this to one beat — there are whole talks just on Python packaging.
 :::
 
 ## Takeaway: {.center}
@@ -110,16 +135,14 @@ APIs matter.
 ## Thesis: {.center}
 
 ::: {.fragment .big-word}
-Choose the easiest thing.
+*Language migrations should emphasize the easiest option for the principal agent, the programmer.*
 :::
 
 ::: {.notes}
-Thesis
-The hot take: APIs matter more than speed
-State it plainly and let the rest of the talk earn it: the API decision
-should come first — ahead of performance, cost, and support — because
-it's the one factor that determines how much friction the humans on the
-team absorb.
+The hot take: APIs matter more than speed, cost, or support.
+
+State it plainly and let the rest of the talk earn it — this is the one
+decision that determines how much friction the team absorbs.
 :::
 
 # The easy migration
@@ -128,27 +151,37 @@ team absorb.
 I want to outline what goes into an easy migration
 :::
 
-## Chapter One: Getting started fast {.bullets-lg}
+## *Chapter One: Getting started fast* {.bullets-lg}
 
 ::: {.incremental}
-- Early wins matter
-- First impressions matter
+- [Early]{.accent} wins
+
+- The [thin-slice]{.accent} effect
 :::
 
 ::: {.notes}
-Can I be productive immediately?
+The question we're answering here is - Can I be productive immediately?
 
-Pick the API that lets people write real code on day one, before they've
-mastered environments, classes, or types.
-Imagine you get a cocktail at a new spot, and the cocktail is horrible.
-You probably associate this place as not being good, I know so because I
-did this. When I went back I got a fantastic cocktail, and I'm a regular
-there now. Friction at the start compounds. A team that's writing
-working code in week one builds momentum a team still debugging pip
-does not.
+Getting started in a new coding workflow is important. Not only for timelines but to generate interest in the new language.
+
+[click] early wins
+
+Pick the API that lets people write real code on day one, before they've mastered environments, classes, or types.
+
+Getting some early code typed up and working is impactful to superiors and makes you feel good.
+
+[click] First impressions
+
+First impressions are not necessarily accurate, but they have more predictive power and persistence than we would like to believe.
+
+Thin-slicing literature unequivically indicates we are judgemental animals, predicting trends constantly. Even a slice of an interaction with something new can deeply inform our opinions of it in the long term.
+
+This isn't right, but it's reality, and it's something that has to be managed.
 :::
 
-## {auto-animate="true"}
+<!-- IDK If i'm going to keep this snippet, has a weird transition -->
+
+<!-- ## {auto-animate="true"}
 
 :::: {.columns}
 
@@ -182,7 +215,7 @@ df.group_by("group").agg(
 :::
 :::
 
-::::
+:::: -->
 
 ::: {.notes}
 Pillar One: Getting Started Fast
@@ -209,20 +242,23 @@ The audience takeaway is simply:
 Don't get into the philosophy yet.
 :::
 
-## Pillar one conclusion: {.center}
+## Conclusion: {.center}
 
 ::: {.fragment .big-word}
-APIs should be treated as customer experience. Treat the consumer like a customer.
+*Framework and Language API is a first class consideration.*
 :::
 
 ::: {.notes}
-APIs should be user first, many are, but many aren't.
-Frameworks that have user friendly APIs will pay dividends in the
-beginning as people come up to speed on the other more complicated
-pieces of the language.
+Not all APIs are created equal — some are just thin wrappers exposing
+every private method.
+
+User-friendly frameworks pay dividends early, while people are still
+coming up to speed on everything else.
+
+The goal is comfort, not full control of a complex system.
 :::
 
-## Pillar Two: Keep the same shape of thought {.bullets-lg}
+## *Pillar Two: Keep the same shape of thought* {.bullets-lg}
 
 ::: {.incremental}
 - Easy [syntax]{.accent} is a virtue
@@ -230,10 +266,14 @@ pieces of the language.
 :::
 
 ::: {.notes}
-Other options leveraged highly verbose or typed languages, introducing
-layers of complexity and friction
-We chose Polars because its expression-based API preserved the dplyr
-way of thinking about data.
+Same shape of thought: don't make people relearn how to think about data.
+
+[click] Easy syntax — other options leaned on verbose, heavily-typed
+languages that added friction before anyone got to the actual work.
+
+[click] Import your philosophy — we chose Polars because its
+expression-based API preserved the dplyr way of thinking about data,
+not just its syntax.
 :::
 
 ## Code snippet on similarities in syntax/philosophy
@@ -251,29 +291,14 @@ pl.col("revenue")
 :::
 
 ::: {.notes}
-Pillar Two: Keep the Same Shape of Thought
-This should be about transfer, not onboarding.
-The question becomes:
-After I know how to use it, does the system let me keep thinking about
-data the way I already do?
-This is where your functional-expression argument belongs.
+This is about transfer, not onboarding: once you know the syntax, does
+the system let you keep thinking about data the way you already do?
 
-I'd restructure the points:
-Pillar Two: Keep the Same Shape of Thought
-Don't make people relearn how to think about data.
-Easy syntax is a virtue.
-Import the philosophy, not just the syntax.
-We wanted an API where operations compose as expressions over columns.
-The existing dplyr mental model transfers: select → transform → filter
-→ aggregate.
-No need to first learn OOP, strong typing, or imperative loops.
+The dplyr mental model transfers directly — select, transform, filter,
+aggregate — with no detour through OOP, strong typing, or imperative
+loops.
 
-Then your selector/conditional aggregation example becomes much more
-powerful here than on Pillar One.
-
-Then explicitly call out:
-Same thought. Different language.
-That's the actual migration story.
+Same thought. Different language. That's the actual migration story.
 :::
 
 ## Pillar two conclusion: {.center}
@@ -283,12 +308,11 @@ Some days, you don't need to learn anything new.
 :::
 
 ::: {.notes}
-Asking people to migrate is like information overload, they're going to
-learn a ton and it doesn't all have to be at once. Do you take calc 4
-before calc 1? No.
+Migrating is already information overload — it doesn't all have to land
+on day one. You don't take Calc 4 before Calc 1.
 
-When people are comfortable, they'll move on to the fancier stuff and
-make more informed decisions.
+Once people are comfortable, they'll move on to the fancier stuff on
+their own, and make better-informed decisions about it.
 :::
 
 ## Pillar Three: Morale {.bullets-lg}
@@ -299,36 +323,16 @@ make more informed decisions.
 :::
 
 ::: {.notes}
-Early consistency improves code sharing and other key abilities, and
-increases efforts for collaboration.
-By choosing something easy, you can maintain morale and keep people
-engaged during what is likely a stressful time
+A migration is already disruptive — morale is the resource you're
+protecting.
 
-Maintain Morale → Can the team keep moving without the migration
-becoming psychologically expensive?
+[click] Maintain early consistency — shared idioms make code easier to
+read, review, and debug, so the team isn't each having a different
+experience of the same migration.
 
-Pillar Three: Maintain Morale
-I'd phrase the slide roughly like this:
-Consistency reduces fear.
-Maintain early consistency across the team.
-A migration is already disruptive. Don't make every developer's
-experience different.
-Shared idioms make code easier to read, review, share, and debug.
-Early wins build confidence; confidence keeps people engaged.
-Choose the tool that lets people feel competent before they feel expert.
-
-I would also change "early consistency"
-"Early consistency" is a little ambiguous. It sounds like you're saying
-write consistent code immediately, which isn't really the deeper point.
-
-Pillar Three: Reduce Fear
-Don't make the migration harder than it already is.
-Keep as much of the team's existing mental model as possible.
-Shared idioms create consistency in code reviews, debugging, and
-collaboration.
-Early successes create confidence; confidence creates engagement.
-Every unnecessary conceptual change increases the psychological cost of
-migration.
+[click] Reduce fear — keep as much of the team's existing mental model
+as possible. Early wins build confidence, and confidence keeps people
+engaged.
 :::
 
 ## Bring it on home {.center}

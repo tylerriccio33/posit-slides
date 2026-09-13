@@ -6,7 +6,7 @@ project:
 
 format:
   revealjs:
-    theme: [default, theme/custom.scss, brand]
+    theme: [dark, theme/custom.scss, brand]
     slide-number: true
     preview-links: auto
     transition: slide
