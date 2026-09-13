@@ -7,6 +7,7 @@
 /*-- scss:defaults --*/
 
 $presentation-font-size-root: 32px;
+$code-block-font-size: 0.65em;
 
 /*-- scss:rules --*/
 
@@ -48,22 +49,37 @@ $presentation-font-size-root: 32px;
   margin-top: 0.4em;
 }
 
-/* row-by-row animated stakeholder grid (replaces a plain table) */
+/* row-by-row animated stakeholder grid (one fragment = one row) */
 .stakeholder-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.3em 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
   font-size: 1.7em;
   margin-top: 1em;
+}
+
+.stakeholder-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.5em;
   justify-items: center;
 }
 
 .stakeholder-name {
   font-weight: 700;
-  text-align: center;
 }
 
 .stakeholder-value {
   color: #ED561B;
-  text-align: center;
+}
+
+.stakeholder-row.accent .stakeholder-name {
+  color: #ED561B;
+}
+
+/* employer-required disclaimer: present, small, out of the way */
+.reveal .disclaimer {
+  font-size: 0.5em;
+  color: #999;
+  margin-top: 2.5em;
 }

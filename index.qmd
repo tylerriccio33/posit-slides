@@ -5,108 +5,7 @@ author: "Tyler Riccio"
 format: revealjs
 ---
 
-## {.todo}
-
-<!-- might need to alter title slide -->
-
-::: {.notes}
-fff
-:::
-
-## Migrating Languages: {auto-animate="true"}
-
-### Choose the easiest API
-
-A talk focused on migrating from dplyr to Polars, and the case that the
-API you pick matters more than the speed, cost or support model behind it.
-
-Author: Tyler Riccio
-
-::: {.fragment}
-**About me**
-
-- Name: Tyler Riccio
-- Role / team: [TODO: your title + team]{.todo}
-- What I do day to day: [TODO: one line on your work]{.todo}
-:::
-
-## CFG disclaimer {.todo}
-
-<!-- placeholder slide from original deck -->
-
-## What do we mean by "API"?
-
-Not a web API. When I say API in this talk, I mean the literal
-**function signature** — the contract for how you interact with a piece
-of code.
-
-```r
-sum(x, na.rm = TRUE) # The `sum` API
-
-df %>% select(...) # `DataFrame` or `select` API
-```
-
-```python
-data.filter(pl.col('truthy')) # `DataFrame` or `filter` API
-
-[x + 1 for x in vec] # List comprehension API
-```
-
-Some APIs are more theoretical in nature:
-
-```default
-Imperative vs. Procedural
-
-RDBMS vs. Graph
-
-UV Projects vs. Virtual Environments
-```
-
-::: {.notes}
-Clarify before going further: this talk is not about REST/web APIs.
-An API here just means the shape of the function — the arguments you
-pass in, the value you get back — the contract you have to learn to
-use something.
-:::
-
-# The Task: Major Business Migration
-
-## On Migrations Generally: {.center}
-
-### No one asks the **[principal]{.accent}** agent…
-
-::: {.notes}
-No one asks the principal character - the programmer doing the migration.
-:::
-
-## The litany of opinions one receives {.center}
-
-## {.center}
-
-<div class="stakeholder-grid">
-<div class="fragment stakeholder-name">Finance</div>
-<div class="fragment stakeholder-value">Cost</div>
-<div class="fragment stakeholder-name">Leadership</div>
-<div class="fragment stakeholder-value">Resourcing</div>
-<div class="fragment stakeholder-name">Tech</div>
-<div class="fragment stakeholder-value">Infrastructure</div>
-<div class="fragment stakeholder-name">Cyber</div>
-<div class="fragment stakeholder-value">Security</div>
-</div>
-
-::: {.notes}
-Every migration collects a chorus of opinions before anyone touches the code.
-
-[click] Finance — the cheapest option.
-[click] Leadership — the most resourced option.
-[click] Tech — the most infrastructure-compatible option.
-[click] Cyber — the most secure option.
-
-Notice who's missing: the person who actually has to write and read this
-code every day.
-:::
-
-## I'm trying to install python… {.bullets-lg}
+## {.bullets-lg}
 
 ::: {.incremental}
 - What is pip, conda, pyenv?
@@ -116,42 +15,108 @@ code every day.
 :::
 
 ::: {.notes}
-Cold open, first person, present tense — pre-uv world: pip, conda, pyenv,
-interpreters, paths.
+OPENING LINE (verbatim, before anything else): "I'm trying to install
+Python."
 
-Everyone in the room who's installed Python has lived some version of
-this. Let the laugh land, then turn it: the first impression isn't a
-footnote — it sets the tone for everything that follows.
+First person, present tense — pre-uv world. [click] pip, conda, pyenv.
+[click] interpreter. [click] path. [click] VSCode has it, right?
 
-Keep this to one beat — there are whole talks just on Python packaging.
+Let the laugh land. Then the bridge:
+
+"That was my first ten minutes in Python. Nobody who planned that
+migration ever sat through those ten minutes — and those ten minutes
+decided how I felt about the whole thing."
+
+Keep it to one beat — there are whole talks on Python packaging.
 :::
 
-## Takeaway: {.center}
+## {.center}
 
-::: {.fragment .big-word}
-APIs matter.
+**Tyler Riccio**
+
+*Data scientist. Learned to think in dplyr — had to learn to think in Polars.*
+
+::: {.disclaimer}
+The views expressed here are my own and do not represent my employer.
+:::
+
+::: {.notes}
+INTRO LINE (verbatim): "I'm Tyler, a data scientist who learned to think
+in dplyr and had to learn to think in Polars."
+
+That's the whole bio. Three seconds, then move.
+:::
+
+# Who gets asked
+
+## No one asks the **[programmer]{.accent}**… {.center}
+
+::: {.notes}
+No one asks the person who actually has to write the code.
+
+Legitimacy beat, gently: "I've been that programmer. I spent the last
+few years moving a team from dplyr to Polars, and that migration is
+where everything in this talk comes from."
+:::
+
+## The litany of opinions {.center}
+
+<div class="stakeholder-grid">
+<div class="fragment stakeholder-row"><span class="stakeholder-name">Finance</span><span class="stakeholder-value">Cost</span></div>
+<div class="fragment stakeholder-row"><span class="stakeholder-name">Leadership</span><span class="stakeholder-value">Resourcing</span></div>
+<div class="fragment stakeholder-row"><span class="stakeholder-name">Tech</span><span class="stakeholder-value">Infrastructure</span></div>
+<div class="fragment stakeholder-row"><span class="stakeholder-name">Cyber</span><span class="stakeholder-value">Security</span></div>
+</div>
+
+::: {.notes}
+Every migration collects a chorus of opinions before anyone touches the
+code.
+
+[click] Finance — the cheapest option.
+[click] Leadership — the most resourced option.
+[click] Tech — the most infrastructure-compatible option.
+[click] Cyber — the most secure option.
+
+Pause. "Notice who's missing." The person from slide one, trying to
+install Python.
 :::
 
 ## Thesis: {.center}
 
 ::: {.fragment .big-word}
-*Language migrations should emphasize the easiest option for the principal agent, the programmer.*
+*A language migration should optimize for the easiest option for the person who has to write the code.*
 :::
 
 ::: {.notes}
-The hot take: APIs matter more than speed, cost, or support.
+The hot take: the API matters more than speed, cost, or support.
 
-State it plainly and let the rest of the talk earn it — this is the one
+State it plainly and let the rest of the talk earn it. This is the one
 decision that determines how much friction the team absorbs.
 :::
 
-# The easy migration
+## By "API" I mean the function signature
+
+Not a web API. The shape of the contract: what you pass in, what you
+get back, what you have to learn to use it.
+
+```r
+sum(x, na.rm = TRUE)
+```
+
+```python
+df.filter(pl.col("paid"))
+```
 
 ::: {.notes}
-I want to outline what goes into an easy migration
+Quick fence around the word before going on: API here is the literal
+function signature — the arguments and the return — not REST.
+
+Two examples, don't explain them. Move.
 :::
 
-## *Chapter One: Getting started fast* {.bullets-lg}
+# What easy actually means
+
+## Pillar One: Productive on day one {.bullets-lg}
 
 ::: {.incremental}
 - [Early]{.accent} wins
@@ -160,105 +125,77 @@ I want to outline what goes into an easy migration
 :::
 
 ::: {.notes}
-The question we're answering here is - Can I be productive immediately?
+Verbal signpost: "Two pillars. First: can I be productive immediately?"
 
-Getting started in a new coding workflow is important. Not only for timelines but to generate interest in the new language.
+[click] Early wins — real code that runs on day one, before anyone has
+mastered environments, classes, or types. Impresses superiors; feels
+good.
 
-[click] early wins
+[click] Thin-slice — first impressions aren't accurate, but they have
+more predictive power and persistence than we'd like. We're judgemental
+animals. Callback: my first ten minutes installing Python was a thin
+slice, and it stuck.
 
-Pick the API that lets people write real code on day one, before they've mastered environments, classes, or types.
-
-Getting some early code typed up and working is impactful to superiors and makes you feel good.
-
-[click] First impressions
-
-First impressions are not necessarily accurate, but they have more predictive power and persistence than we would like to believe.
-
-Thin-slicing literature unequivically indicates we are judgemental animals, predicting trends constantly. Even a slice of an interaction with something new can deeply inform our opinions of it in the long term.
-
-This isn't right, but it's reality, and it's something that has to be managed.
+Not fair, but real, and it has to be managed.
 :::
 
-<!-- IDK If i'm going to keep this snippet, has a weird transition -->
-
-<!-- ## {auto-animate="true"}
+## Day one
 
 :::: {.columns}
 
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column width="45%"}
 **dplyr**
 
 ```r
-df %>%
-  group_by(group) %>%
-  summarize(
-    revenue = sum(revenue),
-    paid = sum(revenue[status == "paid"])
-  )
+df |>
+  filter(status == "paid") |>
+  select(customer, revenue) |>
+  head(10)
 ```
 :::
-:::
 
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column width="55%"}
 **Polars**
 
 ```python
-df.group_by("group").agg(
-    pl.col("revenue").sum(),
-    pl.col("revenue")
-      .filter(pl.col("status") == "paid")
-      .sum()
-)
+(df
+  .filter(pl.col("status") == "paid")
+  .select("customer", "revenue")
+  .head(10))
 ```
 :::
-:::
 
-:::: -->
+::::
+
+::: {.fragment .center}
+**Ten minutes in, and it already works.**
+:::
 
 ::: {.notes}
-Pillar One: Getting Started Fast
-Make this about activation energy and the first 30 minutes/day.
-Your selector/aggregation example is good here, but I'd use the simplest
-possible version. You don't want to explain the code; you want the
-audience to recognize it instantly.
+Don't explain the code — the room should recognize it instantly.
 
-Chapter One: Getting Started Fast
-Early wins matter.
-First impressions matter.
-Pick the API that lets people write real, useful code on day one.
-Don't make the first lesson environments, classes, types, or package
-management.
-Friction at the start compounds.
+The pipe became a dot. filter is filter, select is select. That is the
+entire lesson for day one.
 
-Then your cocktail analogy works here. The core idea is:
-The first experience determines whether people keep going.
-The code demo should therefore show "I just learned this and
-immediately accomplished something."
-
-The audience takeaway is simply:
-"Holy shit, I can already do real work."
-Don't get into the philosophy yet.
+[click] "Ten minutes in, and it already works." That's the early win,
+and it's the thin slice you *want* people to form.
 :::
 
-## Conclusion: {.center}
+## Pillar One conclusion: {.center}
 
 ::: {.fragment .big-word}
-*Framework and Language API is a first class consideration.*
+*Day one decides whether people keep going.*
 :::
 
 ::: {.notes}
-Not all APIs are created equal — some are just thin wrappers exposing
-every private method.
-
-User-friendly frameworks pay dividends early, while people are still
-coming up to speed on everything else.
+Not all APIs are created equal — some are thin wrappers exposing every
+private method. A user-friendly framework pays off while people are
+still coming up to speed on everything else.
 
 The goal is comfort, not full control of a complex system.
 :::
 
-## *Pillar Two: Keep the same shape of thought* {.bullets-lg}
+## Pillar Two: Keep the same shape of thought {.bullets-lg}
 
 ::: {.incremental}
 - Easy [syntax]{.accent} is a virtue
@@ -266,17 +203,19 @@ The goal is comfort, not full control of a complex system.
 :::
 
 ::: {.notes}
-Same shape of thought: don't make people relearn how to think about data.
+Verbal signpost: "That's day one. The second pillar is every day after:
+don't make people relearn how to think about data."
 
 [click] Easy syntax — other options leaned on verbose, heavily-typed
 languages that added friction before anyone got to the actual work.
 
-[click] Import your philosophy — we chose Polars because its
-expression-based API preserved the dplyr way of thinking about data,
-not just its syntax.
+[click] Import your philosophy — Polars' expression API preserves the
+dplyr way of thinking about data, not just its syntax. select,
+transform, filter, aggregate — no detour through OOP, strong typing, or
+imperative loops.
 :::
 
-## Code snippet on similarities in syntax/philosophy
+## Same thought, different language
 
 `sum(revenue[status == "paid"])` becomes:
 
@@ -287,21 +226,68 @@ pl.col("revenue")
 ```
 
 ::: {.fragment}
-**Same thought. Different language.**
+**Vectorized in R. Vectorized in Polars. No loop in either.**
 :::
 
 ::: {.notes}
-This is about transfer, not onboarding: once you know the syntax, does
-the system let you keep thinking about data the way you already do?
+This is transfer, not onboarding: once you know the syntax, does the
+system let you keep thinking about data the way you already do?
 
-The dplyr mental model transfers directly — select, transform, filter,
-aggregate — with no detour through OOP, strong typing, or imperative
-loops.
+Subset a vector by a condition, then reduce it. Same thought. The R
+version is a bracket; the Polars version is a chain — but it's the same
+sentence.
 
-Same thought. Different language. That's the actual migration story.
+[click] The point to hit: nobody wrote a for loop. The whole
+vectorized mental model came with us.
 :::
 
-## Pillar two conclusion: {.center}
+## Same thought, every column
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**dplyr**
+
+```r
+df |>
+  mutate(across(
+    starts_with("rev"),
+    \(x) x * 1.1
+  ))
+```
+:::
+
+::: {.column width="50%"}
+**Polars**
+
+```python
+import polars.selectors as cs
+
+df.with_columns(
+  cs.starts_with("rev") * 1.1
+)
+```
+:::
+
+::::
+
+::: {.fragment .center}
+**One expression, every matching column.**
+:::
+
+::: {.notes}
+Column selectors: the same idea in both — pick columns by a rule, apply
+one expression to all of them.
+
+[click] One expression, every column. Method chaining in Polars is the
+pipe in dplyr; an expression in Polars is the thing inside `across`.
+
+Morale beat lives here: when everyone writes it this way, code is
+readable and reviewable across the team. Shared idioms mean the whole
+team has the *same* migration, not eight different ones.
+:::
+
+## Pillar Two conclusion: {.center}
 
 ::: {.fragment .big-word}
 Some days, you don't need to learn anything new.
@@ -311,31 +297,11 @@ Some days, you don't need to learn anything new.
 Migrating is already information overload — it doesn't all have to land
 on day one. You don't take Calc 4 before Calc 1.
 
-Once people are comfortable, they'll move on to the fancier stuff on
-their own, and make better-informed decisions about it.
+Once people are comfortable, they move on to the fancier stuff on their
+own, and make better-informed decisions about it.
 :::
 
-## Pillar Three: Morale {.bullets-lg}
-
-::: {.incremental}
-- Maintain early consistency
-- Reduce fear
-:::
-
-::: {.notes}
-A migration is already disruptive — morale is the resource you're
-protecting.
-
-[click] Maintain early consistency — shared idioms make code easier to
-read, review, and debug, so the team isn't each having a different
-experience of the same migration.
-
-[click] Reduce fear — keep as much of the team's existing mental model
-as possible. Early wins build confidence, and confidence keeps people
-engaged.
-:::
-
-## Bring it on home {.center}
+## {.center}
 
 ::: {.fragment .big-word}
 Productivity
@@ -349,31 +315,58 @@ Productivity
 → Confidence
 :::
 
-# So what if…
+::: {.aside}
+We wrote this migration up in a long-form piece with the Polars team.
+:::
 
-## The litany, revisited {auto-animate="true"}
+::: {.notes}
+Verbal signpost: "Put the two pillars together."
+
+[click] Productivity — day one works.
+[click] Familiarity — the shape of thought carries over.
+[click] Confidence — and confidence is the thing a migration actually
+runs on. Morale isn't a separate goal; it's what you get when the first
+two are true.
+
+Footnote, one sentence: we liked it enough that we wrote it up publicly
+with the Polars team. Don't linger.
+:::
+
+# Ask the programmer
+
+## The litany of opinions {.center auto-animate="true"}
 
 <div class="stakeholder-grid">
-<div class="fragment stakeholder-name">Finance</div>
-<div class="fragment stakeholder-value">Cost</div>
-<div class="fragment stakeholder-name">Leadership</div>
-<div class="fragment stakeholder-value">Resourcing</div>
-<div class="fragment stakeholder-name">Tech</div>
-<div class="fragment stakeholder-value">Infrastructure</div>
-<div class="fragment stakeholder-name">Cyber</div>
-<div class="fragment stakeholder-value">Security</div>
-<div class="fragment stakeholder-name accent">User</div>
-<div class="fragment stakeholder-value accent">Easy</div>
+<div class="stakeholder-row"><span class="stakeholder-name">Finance</span><span class="stakeholder-value">Cost</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Leadership</span><span class="stakeholder-value">Resourcing</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Tech</span><span class="stakeholder-value">Infrastructure</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Cyber</span><span class="stakeholder-value">Security</span></div>
 </div>
 
 ::: {.notes}
-Someone should be choosing the easiest, because that's the person who
-has to live in this code tomorrow
+Back where we started. Same four voices.
 :::
 
-# Tell people about it!
+## The litany of opinions {.center auto-animate="true"}
+
+<div class="stakeholder-grid">
+<div class="stakeholder-row"><span class="stakeholder-name">Finance</span><span class="stakeholder-value">Cost</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Leadership</span><span class="stakeholder-value">Resourcing</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Tech</span><span class="stakeholder-value">Infrastructure</span></div>
+<div class="stakeholder-row"><span class="stakeholder-name">Cyber</span><span class="stakeholder-value">Security</span></div>
+<div class="fragment stakeholder-row accent"><span class="stakeholder-name">Programmer</span><span class="stakeholder-value">Easy</span></div>
+</div>
 
 ::: {.notes}
-At our company, we had such a good time we told people about it! We
-published a case study with polars about our success.
+[click] The missing row.
+
+Someone should be choosing the easiest option, because that's the person
+who has to live in this code tomorrow.
+
+CLOSING LINE (verbatim): "That's how you migrate a language without
+losing your native one."
+
+"Thank you."
+
+(Then: "Happy to take questions.")
 :::

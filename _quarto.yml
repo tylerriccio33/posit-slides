@@ -15,5 +15,4 @@ format:
     auto-animate: true
     fragment: true
     chalkboard: false
-    footer: "Migrating Languages: Choose the Easiest API"
     logo: ""
