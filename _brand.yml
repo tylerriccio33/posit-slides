@@ -1,0 +1,40 @@
+meta:
+  name: Migrating Languages
+
+color:
+  palette:
+    # carried over from the original deck's PowerPoint theme (theme1.xml)
+    ink: "#000000"
+    paper: "#FFFFFF"
+    forest: "#158158" # theme dk2 — dark teal-green
+    mist: "#F3F3F3" # theme lt2
+    orange: "#ED561B" # theme accent3
+    blue: "#058DC7" # theme accent1
+    green: "#50B432" # theme accent2
+
+  primary: orange
+  secondary: forest
+  success: green
+  info: blue
+  foreground: ink
+  background: paper
+
+typography:
+  fonts:
+    - family: Cambria
+      source: system
+    - family: Calibri
+      source: system
+
+  base:
+    family: Calibri
+    size: 1rem
+    line-height: 1.35
+
+  headings:
+    family: Cambria
+    weight: 700
+    line-height: 1.15
+
+  link:
+    color: primary

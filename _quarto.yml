@@ -2,10 +2,11 @@ project:
   type: default
   render:
     - index.qmd
+  brand: _brand.yml
 
 format:
   revealjs:
-    theme: [default, theme/custom.scss]
+    theme: [default, theme/custom.scss, brand]
     slide-number: true
     preview-links: auto
     transition: slide
