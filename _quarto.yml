@@ -1,0 +1,16 @@
+project:
+  type: default
+
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    slide-number: true
+    preview-links: auto
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    auto-animate: true
+    fragment: true
+    chalkboard: false
+    footer: "Migrating Languages: Choose the Easiest API"
+    logo: ""

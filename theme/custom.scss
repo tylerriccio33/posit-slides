@@ -1,0 +1,39 @@
+/*-- scss:defaults --*/
+
+$body-bg: #ffffff;
+$body-color: #1a1a1a;
+$link-color: #7a5cf0;
+$selection-bg: #7a5cf0;
+
+$presentation-heading-font: "Fira Sans", sans-serif;
+$presentation-font-size-root: 32px;
+$presentation-line-height: 1.35;
+
+$code-block-bg: #1e1e2e;
+
+/*-- scss:rules --*/
+
+.reveal h1, .reveal h2, .reveal h3 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.reveal .slide-number {
+  color: #999;
+}
+
+.reveal table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal .callout {
+  border-left: 4px solid $link-color;
+  padding-left: 0.6em;
+}
+
+/* placeholder / TODO slides ported from the original deck */
+.todo {
+  color: #c0392b;
+  font-style: italic;
+}

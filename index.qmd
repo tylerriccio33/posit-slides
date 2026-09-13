@@ -1,0 +1,316 @@
+---
+title: "Migrating Languages:"
+subtitle: "Choose the easiest API"
+author: "Tyler Riccio"
+format: revealjs
+---
+
+## {.todo}
+
+<!-- might need to alter title slide -->
+
+::: {.notes}
+fff
+:::
+
+## Migrating Languages: {auto-animate="true"}
+
+### Choose the easiest API
+
+A talk focused on migrating from dplyr to Polars, and the case that the
+API you pick matters more than the speed, cost or support model behind it.
+
+Author: Tyler Riccio
+
+## CFG disclaimer {.todo}
+
+<!-- placeholder slide from original deck -->
+
+## \< define what we mean by API \> {.todo}
+
+<!-- placeholder slide from original deck -->
+
+# The Task: Major Business Migration
+
+## On Migrations Generally: {.center}
+
+### No one asks the principal agent…
+
+::: {.notes}
+No one asks the principal character - the programmer doing the migration.
+:::
+
+## The litany of opinions one receives
+
+| Department | Interest |
+|---|---|
+| Finance | Cost |
+| Leadership | Resourcing |
+| Tech | Infrastructure |
+| Cyber | Security |
+
+::: {.notes}
+Risk says the most secure option. Finance says the cheapest. Leadership
+says the most supportable, long-term.
+Nobody in that room asks the people who will write and read this code
+every day what they'd choose.
+:::
+
+## I'm trying to install python…
+
+::: {.incremental}
+- What is pip, conda, pyenv?
+- What's an interpreter?
+- What's a path?
+- VSCode has python in it right?
+:::
+
+::: {.notes}
+Cold open, present tense, first person: pip, conda, pyenv — pre-uv world.
+What's an interpreter? What's a path? What even is an IDE?
+Land the joke — everyone in the room who has installed Python has a
+version of this story.
+Turn it: the first impression is not a footnote. It sets the tone for
+everything that follows.
+Note: Don't let this become the whole talk — plenty of talks exist just
+on Python packaging. One beat, then move.
+:::
+
+## Takeaway: {.center}
+
+### APIs matter.
+
+## Thesis: {.center}
+
+### Choose the easiest thing.
+
+::: {.notes}
+Thesis
+The hot take: APIs matter more than speed
+State it plainly and let the rest of the talk earn it: the API decision
+should come first — ahead of performance, cost, and support — because
+it's the one factor that determines how much friction the humans on the
+team absorb.
+:::
+
+# The easy migration
+
+::: {.notes}
+I want to outline what goes into an easy migration
+:::
+
+## Chapter One: Getting started fast
+
+::: {.incremental}
+- Early wins matter
+- First impressions matter
+:::
+
+::: {.notes}
+Pick the API that lets people write real code on day one, before they've
+mastered environments, classes, or types.
+Imagine you get a cocktail at a new spot, and the cocktail is horrible.
+You probably associate this place as not being good, I know so because I
+did this. When I went back I got a fantastic cocktail, and I'm a regular
+there now. Friction at the start compounds. A team that's writing
+working code in week one builds momentum a team still debugging pip
+does not.
+:::
+
+## Getting Started Fast = "Can I be productive immediately?"
+
+::: {.panel-tabset}
+### dplyr
+
+```r
+df %>%
+  group_by(group) %>%
+  summarize(
+    revenue = sum(revenue),
+    paid = sum(revenue[status == "paid"])
+  )
+```
+
+### Polars
+
+```python
+df.group_by("group").agg(
+    pl.col("revenue").sum(),
+    pl.col("revenue")
+      .filter(pl.col("status") == "paid")
+      .sum()
+)
+```
+:::
+
+::: {.notes}
+Pillar One: Getting Started Fast
+Make this about activation energy and the first 30 minutes/day.
+Your selector/aggregation example is good here, but I'd use the simplest
+possible version. You don't want to explain the code; you want the
+audience to recognize it instantly.
+
+Chapter One: Getting Started Fast
+Early wins matter.
+First impressions matter.
+Pick the API that lets people write real, useful code on day one.
+Don't make the first lesson environments, classes, types, or package
+management.
+Friction at the start compounds.
+
+Then your cocktail analogy works here. The core idea is:
+The first experience determines whether people keep going.
+The code demo should therefore show "I just learned this and
+immediately accomplished something."
+
+The audience takeaway is simply:
+"Holy shit, I can already do real work."
+Don't get into the philosophy yet.
+:::
+
+## Pillar one conclusion: {.center}
+
+### APIs should be treated as customer experience. Treat the consumer like a customer.
+
+::: {.notes}
+APIs should be user first, many are, but many aren't.
+Frameworks that have user friendly APIs will pay dividends in the
+beginning as people come up to speed on the other more complicated
+pieces of the language.
+:::
+
+## Pillar Two: Keep the same shape of thought
+
+::: {.incremental}
+- Easy syntax is a virtue
+- Import your philosophy
+:::
+
+::: {.notes}
+Other options leveraged highly verbose or typed languages, introducing
+layers of complexity and friction
+We chose Polars because its expression-based API preserved the dplyr
+way of thinking about data.
+:::
+
+## Code snippet on similarities in syntax/philosophy
+
+`sum(revenue[status == "paid"])` becomes:
+
+```python
+pl.col("revenue")
+  .filter(pl.col("status") == "paid")
+  .sum()
+```
+
+::: {.fragment}
+**Same thought. Different language.**
+:::
+
+::: {.notes}
+Pillar Two: Keep the Same Shape of Thought
+This should be about transfer, not onboarding.
+The question becomes:
+After I know how to use it, does the system let me keep thinking about
+data the way I already do?
+This is where your functional-expression argument belongs.
+
+I'd restructure the points:
+Pillar Two: Keep the Same Shape of Thought
+Don't make people relearn how to think about data.
+Easy syntax is a virtue.
+Import the philosophy, not just the syntax.
+We wanted an API where operations compose as expressions over columns.
+The existing dplyr mental model transfers: select → transform → filter
+→ aggregate.
+No need to first learn OOP, strong typing, or imperative loops.
+
+Then your selector/conditional aggregation example becomes much more
+powerful here than on Pillar One.
+
+Then explicitly call out:
+Same thought. Different language.
+That's the actual migration story.
+:::
+
+## Pillar two conclusion: {.center}
+
+### Some days, you don't need to learn anything new.
+
+::: {.notes}
+Asking people to migrate is like information overload, they're going to
+learn a ton and it doesn't all have to be at once. Do you take calc 4
+before calc 1? No.
+
+When people are comfortable, they'll move on to the fancier stuff and
+make more informed decisions.
+:::
+
+## Pillar Three: Morale
+
+::: {.incremental}
+- Maintain early consistency
+- Reduce fear
+:::
+
+::: {.notes}
+Early consistency improves code sharing and other key abilities, and
+increases efforts for collaboration.
+By choosing something easy, you can maintain morale and keep people
+engaged during what is likely a stressful time
+:::
+
+## Maintain Morale → Can the team keep moving without the migration becoming psychologically expensive?
+
+::: {.notes}
+Pillar Three: Maintain Morale
+I'd phrase the slide roughly like this:
+Consistency reduces fear.
+Maintain early consistency across the team.
+A migration is already disruptive. Don't make every developer's
+experience different.
+Shared idioms make code easier to read, review, share, and debug.
+Early wins build confidence; confidence keeps people engaged.
+Choose the tool that lets people feel competent before they feel expert.
+
+I would also change "early consistency"
+"Early consistency" is a little ambiguous. It sounds like you're saying
+write consistent code immediately, which isn't really the deeper point.
+
+Pillar Three: Reduce Fear
+Don't make the migration harder than it already is.
+Keep as much of the team's existing mental model as possible.
+Shared idioms create consistency in code reviews, debugging, and
+collaboration.
+Early successes create confidence; confidence creates engagement.
+Every unnecessary conceptual change increases the psychological cost of
+migration.
+:::
+
+## Bring it on home {.center}
+
+### Productivity → Familiarity → Confidence
+
+# So what if…
+
+## {.todo}
+
+| Department | Interest |
+|---|---|
+| Finance | Cost |
+| Leadership | Resourcing |
+| Tech | Infrastructure |
+| Cyber | Security |
+| User | Easy |
+
+::: {.notes}
+Someone should be choosing the easiest, because that's the person who
+has to live in this code tomorrow
+:::
+
+# Tell people about it!
+
+::: {.notes}
+At our company, we had such a good time we told people about it! We
+published a case study with polars about our success.
+:::
