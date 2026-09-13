@@ -22,32 +22,59 @@ API you pick matters more than the speed, cost or support model behind it.
 
 Author: Tyler Riccio
 
+::: {.fragment}
+**About me**
+
+- Name: Tyler Riccio
+- Role / team: [TODO: your title + team]{.todo}
+- What I do day to day: [TODO: one line on your work]{.todo}
+:::
+
 ## CFG disclaimer {.todo}
 
 <!-- placeholder slide from original deck -->
 
-## \< define what we mean by API \> {.todo}
+## What do we mean by "API"?
 
-<!-- placeholder slide from original deck -->
+Not a web API. When I say API in this talk, I mean the literal
+**function signature** — the contract for how you interact with a piece
+of code.
+
+```r
+sum(x, na.rm = TRUE)
+```
+
+::: {.notes}
+Clarify before going further: this talk is not about REST/web APIs.
+An API here just means the shape of the function — the arguments you
+pass in, the value you get back — the contract you have to learn to
+use something.
+:::
 
 # The Task: Major Business Migration
 
 ## On Migrations Generally: {.center}
 
-### No one asks the principal agent…
+### No one asks the **[principal]{.accent}** agent…
 
 ::: {.notes}
 No one asks the principal character - the programmer doing the migration.
 :::
 
-## The litany of opinions one receives
+## The litany of opinions one receives {auto-animate="true"}
 
-| Department | Interest |
-|---|---|
-| Finance | Cost |
-| Leadership | Resourcing |
-| Tech | Infrastructure |
-| Cyber | Security |
+<div class="stakeholder-grid">
+<div class="stakeholder-header">Stakeholder</div>
+<div class="stakeholder-header">Interest</div>
+<div class="fragment stakeholder-name">Finance</div>
+<div class="fragment stakeholder-value">Cost</div>
+<div class="fragment stakeholder-name">Leadership</div>
+<div class="fragment stakeholder-value">Resourcing</div>
+<div class="fragment stakeholder-name">Tech</div>
+<div class="fragment stakeholder-value">Infrastructure</div>
+<div class="fragment stakeholder-name">Cyber</div>
+<div class="fragment stakeholder-value">Security</div>
+</div>
 
 ::: {.notes}
 Risk says the most secure option. Finance says the cheapest. Leadership
@@ -56,7 +83,7 @@ Nobody in that room asks the people who will write and read this code
 every day what they'd choose.
 :::
 
-## I'm trying to install python…
+## I'm trying to install python… {.bullets-lg}
 
 ::: {.incremental}
 - What is pip, conda, pyenv?
@@ -78,11 +105,15 @@ on Python packaging. One beat, then move.
 
 ## Takeaway: {.center}
 
-### APIs matter.
+::: {.fragment .big-word}
+APIs matter.
+:::
 
 ## Thesis: {.center}
 
-### Choose the easiest thing.
+::: {.fragment .big-word}
+Choose the easiest thing.
+:::
 
 ::: {.notes}
 Thesis
@@ -99,7 +130,7 @@ team absorb.
 I want to outline what goes into an easy migration
 :::
 
-## Chapter One: Getting started fast
+## Chapter One: Getting started fast {.bullets-lg}
 
 ::: {.incremental}
 - Early wins matter
@@ -107,6 +138,8 @@ I want to outline what goes into an easy migration
 :::
 
 ::: {.notes}
+Can I be productive immediately?
+
 Pick the API that lets people write real code on day one, before they've
 mastered environments, classes, or types.
 Imagine you get a cocktail at a new spot, and the cocktail is horrible.
@@ -117,10 +150,13 @@ working code in week one builds momentum a team still debugging pip
 does not.
 :::
 
-## Getting Started Fast = "Can I be productive immediately?"
+## {auto-animate="true"}
 
-::: {.panel-tabset}
-### dplyr
+:::: {.columns}
+
+::: {.column width="50%"}
+::: {.fragment}
+**dplyr**
 
 ```r
 df %>%
@@ -130,8 +166,12 @@ df %>%
     paid = sum(revenue[status == "paid"])
   )
 ```
+:::
+:::
 
-### Polars
+::: {.column width="50%"}
+::: {.fragment}
+**Polars**
 
 ```python
 df.group_by("group").agg(
@@ -142,6 +182,9 @@ df.group_by("group").agg(
 )
 ```
 :::
+:::
+
+::::
 
 ::: {.notes}
 Pillar One: Getting Started Fast
@@ -170,7 +213,9 @@ Don't get into the philosophy yet.
 
 ## Pillar one conclusion: {.center}
 
-### APIs should be treated as customer experience. Treat the consumer like a customer.
+::: {.fragment .big-word}
+APIs should be treated as customer experience. Treat the consumer like a customer.
+:::
 
 ::: {.notes}
 APIs should be user first, many are, but many aren't.
@@ -179,11 +224,11 @@ beginning as people come up to speed on the other more complicated
 pieces of the language.
 :::
 
-## Pillar Two: Keep the same shape of thought
+## Pillar Two: Keep the same shape of thought {.bullets-lg}
 
 ::: {.incremental}
-- Easy syntax is a virtue
-- Import your philosophy
+- Easy [syntax]{.accent} is a virtue
+- Import your [philosophy]{.accent}
 :::
 
 ::: {.notes}
@@ -235,7 +280,9 @@ That's the actual migration story.
 
 ## Pillar two conclusion: {.center}
 
-### Some days, you don't need to learn anything new.
+::: {.fragment .big-word}
+Some days, you don't need to learn anything new.
+:::
 
 ::: {.notes}
 Asking people to migrate is like information overload, they're going to
@@ -246,7 +293,7 @@ When people are comfortable, they'll move on to the fancier stuff and
 make more informed decisions.
 :::
 
-## Pillar Three: Morale
+## Pillar Three: Morale {.bullets-lg}
 
 ::: {.incremental}
 - Maintain early consistency
@@ -258,11 +305,10 @@ Early consistency improves code sharing and other key abilities, and
 increases efforts for collaboration.
 By choosing something easy, you can maintain morale and keep people
 engaged during what is likely a stressful time
-:::
 
-## Maintain Morale → Can the team keep moving without the migration becoming psychologically expensive?
+Maintain Morale → Can the team keep moving without the migration
+becoming psychologically expensive?
 
-::: {.notes}
 Pillar Three: Maintain Morale
 I'd phrase the slide roughly like this:
 Consistency reduces fear.
@@ -289,19 +335,36 @@ migration.
 
 ## Bring it on home {.center}
 
-### Productivity → Familiarity → Confidence
+::: {.fragment .big-word}
+Productivity
+:::
+
+::: {.fragment .big-word}
+→ Familiarity
+:::
+
+::: {.fragment .big-word}
+→ Confidence
+:::
 
 # So what if…
 
-## {.todo}
+## The litany, revisited {auto-animate="true"}
 
-| Department | Interest |
-|---|---|
-| Finance | Cost |
-| Leadership | Resourcing |
-| Tech | Infrastructure |
-| Cyber | Security |
-| User | Easy |
+<div class="stakeholder-grid">
+<div class="stakeholder-header">Stakeholder</div>
+<div class="stakeholder-header">Interest</div>
+<div class="fragment stakeholder-name">Finance</div>
+<div class="fragment stakeholder-value">Cost</div>
+<div class="fragment stakeholder-name">Leadership</div>
+<div class="fragment stakeholder-value">Resourcing</div>
+<div class="fragment stakeholder-name">Tech</div>
+<div class="fragment stakeholder-value">Infrastructure</div>
+<div class="fragment stakeholder-name">Cyber</div>
+<div class="fragment stakeholder-value">Security</div>
+<div class="fragment stakeholder-name accent">User</div>
+<div class="fragment stakeholder-value accent">Easy</div>
+</div>
 
 ::: {.notes}
 Someone should be choosing the easiest, because that's the person who

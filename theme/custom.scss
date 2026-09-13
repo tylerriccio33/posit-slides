@@ -29,3 +29,48 @@ $presentation-font-size-root: 32px;
   color: #c0392b;
   font-style: italic;
 }
+
+/* accent color for emphasized inline words (brand primary: orange) */
+.accent {
+  color: #ED561B;
+}
+
+/* larger bullet text for slides that feel too sparse at default size */
+.bullets-lg li {
+  font-size: 1.5em;
+  margin-bottom: 0.35em;
+}
+
+/* big punchline word/phrase that fragments in after a slide's label */
+.reveal .big-word {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-top: 0.4em;
+}
+
+/* row-by-row animated stakeholder grid (replaces a plain table) */
+.stakeholder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3em 1.5em;
+  font-size: 1.7em;
+  margin-top: 0.5em;
+}
+
+.stakeholder-header {
+  font-weight: 700;
+  opacity: 0.55;
+  text-transform: uppercase;
+  font-size: 0.6em;
+  letter-spacing: 0.05em;
+}
+
+.stakeholder-name {
+  font-weight: 700;
+  text-align: right;
+}
+
+.stakeholder-value {
+  color: #ED561B;
+  text-align: left;
+}
