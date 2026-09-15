@@ -179,3 +179,12 @@ $code-block-font-size: 0.65em;
   margin-bottom: 0.6em;
   letter-spacing: 0.02em;
 }
+
+/* one-line caption under the cold-open terminal */
+.reveal .caption {
+  font-size: 0.8em;
+  color: #ED561B;
+  font-style: italic;
+  margin-top: 0.6em;
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 ---
-title: "Migrating Languages:"
-subtitle: "Choose the easiest API"
+title: "From dplyr to Polars:"
+subtitle: "Migrating Languages Without Losing the Tidy Model"
 author: "Tyler Riccio"
 format: revealjs
 ---
@@ -25,10 +25,17 @@ error: externally-managed-environment
     ... or 'pipx install xyz' ... or '--break-system-packages' ...
 ```
 
+::: {.caption}
+Day one of a migration I didn't choose.
+:::
+
 ::: {.notes}
 (VERBATIM)
-I'm trying to install Python. Take it back to the roots and imagine yourself at that moment.
-This is real. I ran it yesterday. Day one, first command, and the answer is: brew, venv, pipx, or break your system.
+Day one of a migration I didn't choose. I've been told we're moving from R to Python. First command.
+This is real — I ran it yesterday. And the answer is: brew, venv, pipx, or break your system.
+
+(LEAD-UP, VERBATIM)
+So I do what anyone does. I google it. And the internet answers with questions.
 :::
 
 ## {.bullets-lg}
@@ -77,7 +84,7 @@ The thing is, nobody who planned that migration ever sat through those ten minut
 
 **Tyler Riccio**
 
-*Data engineer. Learned to think in dplyr - had to learn to think in Polars.*
+*I think in dplyr. Lately I've had to think in Polars.*
 
 ::: {.disclaimer}
 The views expressed here are my own and do not represent my employer.
@@ -85,11 +92,11 @@ The views expressed here are my own and do not represent my employer.
 
 ::: {.notes}
 (VERBATIM)
-I'm Tyler, a data engineer who learned to think in dplyr and had to learn to think in Polars.
+I'm Tyler. I think in dplyr. For the last few years I've had to think in Polars.
 
 :::
 
-# Who gets asked {background-color="#158158"}
+# Who plans a migration? {background-color="#158158"}
 
 ## {.center}
 
@@ -114,11 +121,12 @@ And the assignee. The one field that names the person who has to write the code.
 ## No one asks the **[Data Scientist]{.accent}**… {.center}
 
 ::: {.notes}
-No one asks the person who actually has to write the code.
+(VERBATIM)
+Reporter, approvers, watchers. And the one field that was blank: the assignee.
+That's the Data Scientist. The migration is *their* assigned work — and nobody asked them.
 
-Legitimacy beat, gently: "I've been that programmer. I spent the last
-few years moving a team from dplyr to Polars, and that migration is
-where everything in this talk comes from."
+(LEGITIMACY, VERBATIM)
+I know because that ticket had my name in it. I was the assignee. Everything in this talk is what I learned from that seat.
 
 (VERBATIM)
 The decision got made the way these decisions get made: a deck, a meeting, a vendor call. No code on screen.
@@ -160,7 +168,7 @@ Does it fit the containers, the CI, the scheduler we already run? "We already ha
 Cyber — the most secure option. Especially important in the age of AI and CVE proliferation.
 
 (VERBATIM)
-Every package is a surface, and the CVE count is what they see. Typosquats and AI-generated slop packages made that worse, not better.
+Every package is a surface, and the CVE count on the SBOM is what they see. Typosquats and AI-generated slop packages made that worse, not better.
 
 (PAUSE)
 
@@ -174,11 +182,20 @@ Every package is a surface, and the CVE count is what they see. Typosquats and A
 *A language migration should optimize for the easiest option for the person who has to write the code.*
 :::
 
-::: {.notes}
-(VERBATIM, SLOWLY)
-The hot take: the API matters more than speed, cost, or support.
+::: {.fragment}
+*For them, the hard part was never the syntax. It's keeping the way they think.*
+:::
 
-This is the one decision that determines how much friction the team absorbs.
+::: {.notes}
+[click]
+(VERBATIM, SLOWLY)
+A language migration should optimize for the easiest option for the person who has to write the code.
+Easier than cheapest, than best-staffed, than most-compatible, than most-secure.
+
+[click]
+(VERBATIM)
+And "easiest" for that person is specific. Learning new syntax is easy. Porting the mental model — for us, the tidy model — was the real challenge.
+That sentence is the whole talk.
 :::
 
 ## This is not a Polars talk {.center}
@@ -210,79 +227,25 @@ Same fights, different logos. The stakeholders don't change; only the tool does.
 This is the slide the focus group was missing. Don't skip it.
 :::
 
-## By "language" I mean anything you think in {.bullets-lg}
+## Two words {.bullets-lg}
 
 ::: {.incremental}
-- General purpose: [R]{.accent}, [Python]{.accent}, [Java]{.accent}
-- DSLs: [dplyr]{.accent}, [Polars]{.accent}, [SQL]{.accent}
-- Same migration, same questions
+- [Language]{.accent}: anything you think in — R, Python, dplyr, Polars, SQL
+- [API]{.accent}: the function signature — `sum(x, na.rm = TRUE)`
 :::
 
 ::: {.notes}
 (VERBATIM)
-Two words to fence before we go on. First, "language."
-
-[click]
-The obvious ones — R, Python, Java.
-
-[click]
-But also the DSLs. dplyr is a language. Polars is a language. SQL is a language. They have a grammar, you think in them, and you can be fluent or lost in them.
-
-[click]
-So dplyr to Polars is a language migration, even though it's also R to Python. Everything in this talk applies at both levels.
-:::
-
-## By "API" I mean the function signature {auto-animate="true"}
-
-Not a web API. The shape of the contract: what you pass in, what you
-get back, what you have to learn to use it.
-
-::: {.api-example}
-**The `sum` API**
-
-```r
-sum(x, na.rm = TRUE)
-```
-:::
-
-::: {.fragment .aside}
-Humans expose an API too. It's called the five senses.
-:::
-
-::: {.notes}
-Second word: API. Quick fence — API here is the literal
-function signature — the arguments and the return — not REST.
-
-"This is the sum API." Don't explain it.
+Two words to fence, quickly.
 
 [click]
 (VERBATIM)
-Everything you interact with exposes an API. Humans do too — it's called the five senses.
-An API is just how you touch a thing. The question is only whether it's easy to touch.
+"Language" means anything you think in. R and Python, obviously. But dplyr is a language. Polars is a language. SQL is a language. You can be fluent or lost in any of them — so dplyr to Polars is a language migration, even though it's also R to Python.
 
+[click]
 (VERBATIM)
-"Easiest" in this talk just means convenient for the person writing the code — the same idea as yesterday's keynote, pointed at the code instead of the product.
-:::
-
-## By "API" I mean the function signature {auto-animate="true"}
-
-Not a web API. The shape of the contract: what you pass in, what you
-get back, what you have to learn to use it.
-
-::: {.api-example}
-**The `filter` API**
-
-```python
-df.filter(pl.col("paid"))
-```
-:::
-
-::: {.aside}
-Humans expose an API too. It's called the five senses.
-:::
-
-::: {.notes}
-"This is the filter API." Same idea, different language. Move.
+"API" means the function signature — what you pass in, what you get back. Not a web API. Every language exposes one; humans do too, it's called the five senses. The only question is whether it's easy to interact with.
+Hold onto that word — it comes back as pillar one.
 :::
 
 # What "easiest" actually means {background-color="#158158"}
@@ -291,7 +254,7 @@ Humans expose an API too. It's called the five senses.
 (VERBATIM) My thesis called for optimizing for the "easiest" migration options. This is what I mean.
 :::
 
-## Easiest means: productive on day one {.bullets-lg}
+## Pillar one: the syntax is the easy part {.bullets-lg}
 
 ::: {.incremental}
 - [Early]{.accent} wins
@@ -300,8 +263,9 @@ Humans expose an API too. It's called the five senses.
 :::
 
 ::: {.notes}
-(VERBATIM):
-Can the Data Scientist be productive immediately?
+(VERBATIM)
+Pillar one. The abstract for this talk says "learning new syntax is easy" — and it is, if you pick the option where the API is close to the one you already know.
+The test: can the Data Scientist be productive immediately?
 
 [click] 
 Early wins — real code that runs on day one, before anyone has
@@ -501,32 +465,33 @@ Everyone has a tool that lost them on day one, and they never went back.
 Comfort first, control later. The fancy stuff is still there when they're ready.
 
 (TIE-BACK, VERBATIM)
-That's pillar one of "easiest": productive on day one.
+That's pillar one: the syntax — the API — is the easy part. Pick the option where day one works.
 :::
 
-## Easiest means: the same shape of thought {.bullets-lg}
+## Pillar two: the mental model is the migration {.bullets-lg}
 
 ::: {.incremental}
-- Easy [syntax]{.accent} is a virtue
-- Import your [philosophy]{.accent}
+- Syntax is a [lookup]{.accent}
+- The mental model is [yours]{.accent}
 :::
 
 ::: {.notes}
 (LEAD-IN, VERBATIM)
-So that's pillar one — day one. But day one is one day.
-The thesis says optimize for the easiest option for the person who writes the code, and most of their days are day two through day two thousand.
-Pillar two is about those days: the Data Scientist doesn't have to relearn how to think about data.
+So the syntax is easy. Then why did moving to Python feel like losing a native language — to me, and to every colleague I've asked?
+Because day one is one day. Most of the Data Scientist's days are day two through day two thousand, and on those days what matters isn't the syntax. It's whether they still get to think the way they think.
+Pillar two: the mental model is the actual migration.
 
 [click]
 (VERBATIM)
-Easy syntax is a virtue. The other options we looked at were verbose and heavily typed — friction before anyone got to the data.
+Syntax is a lookup. You forget a verb, you search it, you move on.
 
 [click]
 (VERBATIM)
-Import your philosophy. This is the bigger one. We didn't pick Polars for its syntax; we picked it because the way we already thought about data came with us.
+The mental model is yours. It's how you decompose a problem before you type anything. If the new option takes that away, you're not migrating — you're starting over.
+For us, that model is the tidy model. We didn't pick Polars for its syntax; we picked it because the tidy way of thinking came with us.
 
 (SIGNPOST, VERBATIM)
-Three slides on this. First: what that philosophy actually is. Then two examples of what it looks like when it does — and doesn't — carry over.
+Three slides. First: what the tidy model actually is, in three ideas. Then two examples of what it looks like when it does — and doesn't — carry over.
 :::
 
 ## What actually carries over {.bullets-lg}
@@ -539,7 +504,7 @@ Three slides on this. First: what that philosophy actually is. Then two examples
 
 ::: {.notes}
 (VERBATIM)
-Three ideas in the dplyr way of thinking. If the new option keeps all three, the Data Scientist keeps their whole head.
+Three ideas in the tidy model. If the new option keeps all three, the Data Scientist keeps their whole head.
 
 [click]
 Vectorized — the unit of thought is the column. You never write the row loop; the engine does.
@@ -678,7 +643,7 @@ the option where your old sentences still parse.
 And there's a team version of this: when everyone writes it the same way, code review works again. Shared idioms mean the team had one migration, not eight private ones.
 
 (TIE-BACK, VERBATIM)
-That's pillar two of "easiest": the same shape of thought. Nobody had to learn a new way to think.
+That's pillar two: the mental model is the migration, and ours came with us. Nobody had to learn a new way to think.
 :::
 
 ## {.center}
@@ -695,27 +660,10 @@ Migration is already information overload. It doesn't all have to land on day on
 Typing, classes, magic methods, the finer things a language has to offer — once people are comfortable, they go find those on their own, and they make better decisions about them than you would have made for them.
 :::
 
-## {.center}
-
-![](images/ferris.svg){.ferris fig-alt="Ferris, the Rust crab mascot, smiling"}
-
-::: {.fragment}
-**Comfort first. Macros and traits later.**
-:::
-
-::: {.notes}
-(VERBATIM)
-Quick personal example. I moved some code to Rust for performance. Day one, I wrote it like Python with semicolons — and it worked.
-
-[click]
-(VERBATIM)
-Months later I was using macros and traits, and I was glad I had them. On day one they would have been complete overkill. Comfort first, the fancy stuff later.
-:::
-
 ## Two pillars, one thesis {.center}
 
 ::: {.pillars}
-[Day one]{.accent} · [Same shape of thought]{.accent}
+[Syntax is easy]{.accent} · [The mental model is the migration]{.accent}
 :::
 
 ::: {.fragment .big-word}
@@ -733,16 +681,16 @@ Productivity
 ::: {.notes}
 (CONTEXT, VERBATIM)
 Let me bring this back to the thesis. A migration should optimize for the easiest option for the person who has to write the code.
-I said "easiest" means two things. Pillar one: they're productive on day one. Pillar two: they keep the same shape of thought.
+I said "easiest" means two things. Pillar one: the syntax is the easy part — day one works. Pillar two: the mental model is the migration — they keep the tidy way of thinking.
 Here's what you get when you have both.
 
 [click]
 (VERBATIM)
-Productivity — day one works. That's pillar one.
+Productivity — the syntax is easy, day one works. That's pillar one.
 
 [click]
 (VERBATIM)
-Familiarity — the shape of thought carries over. That's pillar two.
+Familiarity — the mental model carries over. That's pillar two.
 
 [click]
 (VERBATIM)

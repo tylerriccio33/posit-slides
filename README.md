@@ -1,4 +1,4 @@
-# Dplyr to Polars: Choose the Easiest API
+# From dplyr to Polars: Migrating Languages Without Losing the Tidy Model
 
 Quarto/revealjs port of the "Migrating Languages: Choose the easiest API"
 talk (dplyr → Polars migration), baselined from the original PowerPoint
