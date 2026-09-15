@@ -15,23 +15,31 @@ format: revealjs
 :::
 
 ::: {.notes}
-OPENING LINE (verbatim, before we start anything else): "I'm trying to install
-Python. Take it back to the roots and imagine yourself at that moment."
+(VERBATIM)
+I'm trying to install Python. Take it back to the roots and imagine yourself at that moment.
 
-[click] pip, conda, pyenv. What is that?
-[click] interpreter.  What?
-[click] path. Windows path? Bash profile?
-[click] VSCode has it, right? What's an IDE?
+[click] 
+pip, conda, pyenv. What is that?
 
-Let the laugh land. Then the bridge:
+[click] 
+interpreter.  What?
+
+[click] 
+path. Windows path? Bash profile?
+
+[click] 
+VSCode has it, right? What's an IDE?
+
+
+(BEAT)
+
 
 (VERBATIM)
-"That was my first ten minutes in Python. Nobody who planned that
-migration ever sat through those ten minutes — and those ten minutes
-decided how I felt about the whole thing."
+I'm told to migrate to Python, and that's my first ten minutes in Python. 
+Everyone who's used python has had that experience, and if you didn't you're lying.
 
-(VERBATIM)
-Now, you can get plenty of talks about our packaging system, this isn't one of them.
+The thing is, nobody who planned that migration ever sat through those ten minutes.
+
 :::
 
 ## {.center}
@@ -41,14 +49,14 @@ Now, you can get plenty of talks about our packaging system, this isn't one of t
 *Data engineer. Learned to think in dplyr - had to learn to think in Polars.*
 
 ::: {.disclaimer}
+(VERBATIM)
 The views expressed here are my own and do not represent my employer.
 :::
 
 ::: {.notes}
-INTRO LINE (verbatim): "I'm Tyler, a data engineer who learned to think
-in dplyr and had to learn to think in Polars."
+(VERBATIM)
+I'm Tyler, a data engineer who learned to think in dplyr and had to learn to think in Polars.
 
-(MOVE ON)
 :::
 
 # Who gets asked
@@ -58,7 +66,7 @@ in dplyr and had to learn to think in Polars."
 ::: {.notes}
 No one asks the person who actually has to write the code.
 
-Legitimacy beat, gently: "I've been that Data Scientist. I spent the last
+Legitimacy beat, gently: "I've been that programmer. I spent the last
 few years moving a team from dplyr to Polars, and that migration is
 where everything in this talk comes from."
 :::
@@ -76,12 +84,27 @@ where everything in this talk comes from."
 Every migration collects a chorus of opinions before anyone touches the
 code.
 
-[click] Finance — the cheapest option. A combination of headcount and general cost against a department budget.
-[click] Leadership — the most resourced option. Who can we staff to support this, and how do we model our organization for it.
-[click] Tech — the most infrastructure-compatible option. What integrates with our stack.
-[click] Cyber — the most secure option. Especially important in the age of AI and CVE proliferation.
+[click] 
+Finance — the cheapest option. A combination of headcount and general cost against a department budget.
 
-Pause. 
+(RIFF TODO NOTES)
+
+[click] 
+Leadership — the most resourced option. Who can we staff to support this, and how do we model our organization for it.
+
+(RIFF TODO NOTES)
+
+[click] 
+Tech — the most infrastructure-compatible option. What integrates with our stack.
+
+(RIFF TODO NOTES)
+
+[click] 
+Cyber — the most secure option. Especially important in the age of AI and CVE proliferation.
+
+(RIFF TODO NOTES)
+
+(PAUSE)
 
 (VERBATIM) 
 "Notice who's missing." The person from slide one, trying to install Python.
@@ -202,11 +225,13 @@ Not fair, but real, and it has to be managed.
 **dplyr**
 
 ```r
+library(dplyr)
+
 df |>
   filter(status == "paid") |>
   select(
-    is_customer = str_like(persona, 'cust'), 
-    revenue = sum(c_across(rev1:rev8), na.rm = TRUE)
+    is_customer = str_detect(persona, 'cust'), 
+    revenue = sum(c_across(starts_with('res')))
   )
 ```
 :::
@@ -215,9 +240,12 @@ df |>
 **Polars**
 
 ```python
-df.filter(pl.col("status") == "paid").select(
-    is_customer = pl.col('persona').str.contains('cust'), 
-    revenue = pl.sum_horizontal(cs.starts_with('rev'))
+from polars.selectors import *
+from polars import col as c
+
+df.filter(c.status == "paid").select(
+    is_customer = c.persona.str.contains('cust'), 
+    revenue = pl.sum_horizontal(starts_with('rev'))
     )
 ```
 :::
@@ -227,14 +255,26 @@ df.filter(pl.col("status") == "paid").select(
 :::
 
 ::: {.notes}
-[click] dplyr — the room should recognize it instantly. Don't explain.
+[click] 
+dplyr for instance is a pipeline-based expressions friendly dataframe DSL.
 
-[click] Polars — the pipe became a dot. filter is filter, select is
-select. That is the entire lesson for day one.
 
-[click] Say it as a property of the CHOICE, not of Polars: "This is what the
-easy option looks like on day one — it works in ten minutes. Whatever
-you're migrating to, this is the test."
+[click] 
+In polars, we get the main verbs 1:1.
+The filter is basically identical.
+We notice the selection is basically the same plus a new way of referencing.
+
+
+[click] 
+An easy test, if your data scientists can get it in 10 minutes then it might be a good choice.
+
+
+
+
+TODO: Click to highlight the star (this is an anti-pattern and we don't care b/c DS personas don't care bout LSP and typing yet)
+Also the attribute referencing and say this might hurt the type checker LSP too.
+
+
 :::
 
 ## {.center}
@@ -259,14 +299,19 @@ The goal is comfort, not full control of a complex system.
 :::
 
 ::: {.notes}
-Verbal signpost: "That's day one. The second thing easiest means is
+(VERBATIM)
+"So that's day one. The second thing easiest means is
 about every day after: the Data Scientist doesn't have to relearn how to
 think about data."
 
-[click] Easy syntax — other options leaned on verbose, heavily-typed
+TODO: Point 1 and 2 are too similar, even the code snippets are too alike.
+
+[click]
+Easy syntax — other options leaned on verbose, heavily-typed
 languages that added friction before anyone got to the actual work.
 
-[click] Import your philosophy — Polars' expression API preserves the
+[click]
+Import your philosophy — Polars' expression API preserves the
 dplyr way of thinking about data, not just its syntax. select,
 transform, filter, aggregate — no detour through OOP, strong typing, or
 imperative loops.
@@ -287,8 +332,10 @@ pl.col("revenue")
 :::
 
 ::: {.notes}
-This is transfer, not onboarding: once you know the syntax, does the
-system let you keep thinking about data the way you already do?
+(VERBATIM)
+This is a knowledge transfer instead of a migration.
+Once you know the syntax, does the system let you keep thinking about data the way you already do?
+
 
 Subset a vector by a condition, then reduce it. Same thought. The R
 version is a bracket; the Polars version is a chain — but it's the same
@@ -296,8 +343,10 @@ sentence.
 
 [click] Nobody wrote a for loop. The vectorized mental model came with
 us. That's the property to look for: the option where your old
-sentences still parse. Not "Polars is great" — "this is what easy
-looks like."
+sentences still parse.
+
+TODO: The 3rd snippet is identical to the first point. All the snippets are too similar!
+
 :::
 
 ## Same thought, every column {.code-stack}
@@ -335,6 +384,8 @@ df.with_columns(
 
 [click] Polars — same idea. `cs` is Polars' column selectors.
 
+TODO: I like the explanation but again, too similar.
+
 [click] Same idea, both sides. The chain is the pipe; the expression is
 the thing inside `across`. Again — the point isn't that Polars has
 selectors; it's that the easy option is the one where the Data Scientist
@@ -352,11 +403,22 @@ Some days, you don't need to learn anything new.
 :::
 
 ::: {.notes}
-Migrating is already information overload — it doesn't all have to land
-on day one. You don't take Calc 4 before Calc 1.
+(VERBATIM)
+Migration is already information overload.
+It doesn't all have to land on day one. You don't take Calc 4 before Calc 1.
 
 Once people are comfortable, they move on to the fancier stuff on their
 own, and make better-informed decisions about it.
+
+Riff:
+- whether that's typing, understanding types in the first place
+- Classes to represent behavior
+- Getting fancy with magic methods in python, or the finer things a language has to offer
+
+(VERBATIM)
+I remember personally moving some code to rust for performance and after I got comfertable
+I got used to macros and traits, which would've been complete overkill to start.
+
 :::
 
 ## {.center}
@@ -378,19 +440,29 @@ We wrote this migration up in a long-form piece with the Polars team.
 :::
 
 ::: {.notes}
-Verbal signpost: "Put the two pillars together."
+(VERBATIM)
+"Now to build our migration plan, we put the two pillars together."
 
-[click] Productivity — day one works.
-[click] Familiarity — the shape of thought carries over.
-[click] Confidence — and confidence is the thing a migration actually
-runs on. Morale isn't a separate goal; it's what you get when the first
-two are true.
 
-Footnote, one sentence: we liked it enough that we wrote it up publicly
-with the Polars team. Don't linger.
+[click] 
+(VERBATIM)
+Productivity — day one works.
 
-Cycle 2 of 3: "That's what it means to pick the easiest option for the
-person who writes the code."
+
+[click] 
+(VERBATIM)
+Familiarity — the shape of thought carries over.
+
+
+[click] 
+(VERBATIM)
+Confidence — and confidence is the thing a migration actually runs on.
+And a silent point to confidence is morale and talent.
+Good teams require talent and if you have low morale, then you will obviously lose the talent.
+
+(ASIDE, FOOTNOTE) 
+We liked it enough that we wrote it up publicly with the Polars team, posted in show notes.
+
 :::
 
 # Ask the Data Scientist
@@ -404,21 +476,26 @@ person who writes the code."
 :::
 
 ::: {.notes}
-Verbal signpost: "So here's what I'd like you to take out of this room."
+(VERBATIM)
+So here's what I'd like you to take out of this room.
 
+(VERBATIM)
 You will be in a migration meeting. Finance, leadership, tech, and
 cyber will all have an opinion. Three questions to bring:
 
-[click] Day one — can someone write real, useful code before they've
-mastered environments and types?
+[click] 
+(VERBATIM)
+Day one — can someone write real, useful code before they've mastered environments and types?
 
-[click] Old sentence — take a line you write every week in the old
-language. Does it translate, or does it need a detour?
+[click] 
+(VERBATIM)
+Old sentence — take a line you write every week in the old language. 
+Does it translate, or does it need a detour?
 
-[click] Who asked the Data Scientist — if the answer is "no one," you're
-the one who has to.
+[click] 
+(VERBATIM)
+Who asked the Data Scientist — if the answer is "no one," you're the one who has to.
 
-This is the call to action. Land it, then the last picture.
 :::
 
 ## The litany of opinions {.center auto-animate="true"}
@@ -449,14 +526,18 @@ Ask the Data Scientist.
 :::
 
 ::: {.notes}
-[click] The missing row.
+[click] 
+(VERBATIM)
+The missing row.
 
-Cycle 3 of 3: "A migration should optimize for the easiest option for
+(VERBATIM)
+A migration should optimize for the easiest option for
 the person who has to write the code — because they're the one who
-lives in it tomorrow."
+lives in it tomorrow.
 
-[click] CLOSING LINE (verbatim, as the words appear on screen): "Ask the
-Data Scientist."
+[click]
+(VERBATIM)
+"Ask the Data Scientist."
 
 Beat. "Thank you."
 
