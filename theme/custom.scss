@@ -109,3 +109,73 @@ $code-block-font-size: 0.65em;
   margin-top: 0;
   margin-bottom: 0.6em;
 }
+
+/* cold-open terminal: real pip output, no line numbers, big enough for the room */
+.reveal .terminal {
+  font-size: 0.7em;
+  width: fit-content;
+  margin: 0 auto;
+  text-align: left;
+}
+.reveal .terminal code { color: #ddd; }
+
+/* full-slide comic with a small credit line */
+.reveal .comic { max-height: 600px; display: block; margin: 0 auto; }
+.reveal .attribution { font-size: 0.4em; color: #999; margin-top: 0.3em; }
+
+/* Ferris under the "learn nothing new" line */
+.reveal .ferris { height: 180px; display: block; margin: 0.5em auto 0; }
+
+/* closing contact slide */
+.reveal .contact p { margin: 0.6em 0; }
+
+/* chapter slides: full-bleed brand secondary, white heading */
+.reveal .slide[data-background-color="#158158"] h1 {
+  color: #fff;
+}
+
+/* mock issue-tracker ticket: light card on the dark slide so it reads as a screenshot */
+.reveal .ticket {
+  background: #fff;
+  color: #172b4d;
+  border-radius: 6px;
+  width: 78%;
+  margin: 0 auto;
+  padding: 0.6em 1em;
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.75em;
+  text-align: left;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.reveal .ticket-head {
+  font-size: 1.35em;
+  font-weight: 600;
+  border-bottom: 1px solid #dfe1e6;
+  padding-bottom: 0.4em;
+  margin-bottom: 0.4em;
+}
+.reveal .ticket-key {
+  color: #5e6c84;
+  font-weight: 400;
+  margin-right: 0.5em;
+}
+.reveal .ticket-row {
+  display: flex;
+  padding: 0.22em 0;
+}
+.reveal .ticket-label {
+  width: 7em;
+  color: #5e6c84;
+  font-weight: 600;
+}
+.reveal .ticket-row.fragment.highlight-current-red.current-fragment {
+  color: #de350b;
+  font-weight: 700;
+}
+
+/* the two named pillars above the Productivity -> Confidence chain */
+.reveal .pillars {
+  font-size: 0.9em;
+  margin-bottom: 0.6em;
+  letter-spacing: 0.02em;
+}
